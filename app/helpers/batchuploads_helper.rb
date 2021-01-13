@@ -1,0 +1,2 @@
+module BatchuploadsHelper
+end
