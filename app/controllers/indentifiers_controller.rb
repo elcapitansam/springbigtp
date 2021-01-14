@@ -1,0 +1,2 @@
+class IndentifiersController < ApplicationController
+end

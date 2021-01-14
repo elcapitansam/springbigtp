@@ -1,9 +1,9 @@
-<h1>Welcome to batch user uploader</h1>
-<%= form_with url: "/input", method: post do |f| %>
-    <% f.label :identifier, "Identifier:" %>
-    <% f.identifier :identifier, class: 'form-control' %>
+<h1>Batch user uploader</h1>
+<%= form_with url: upload_path do |f| %>
+    <%= f.label :identifier %>
+    <%= f.text_field :identifier, class: 'form-control', required: true %>
 
-    <% f.label :csvfile, "CSV File:" %>
-    <% f.text_field :csvfile, class: 'form-control' %>
-    <% f.
-<p>Find me in app/views/batchuploads/input.html.erb</p>
+    <%= f.label :csvfile, "CSV File:" %>
+    <%= f.file_field :csvfile, accept: "text/csv", class: 'form-control-file', required: true %>
+    <%= f.submit "Upload", class: "btn btn-primary" %>
+<% end %>
