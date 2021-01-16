@@ -3,7 +3,8 @@ class Record < ApplicationRecord
 	belongs_to :identifier
 
 	validates :row,
-		presence: true
+		presence: true,
+		numericality: { only_integer: true }
 
 	validates :email,
 		presence: true,
@@ -33,7 +34,7 @@ class Record < ApplicationRecord
 			if digits.length != 10
 				errors.add(:phone, "must contain exactly 10 digits")
 			end
-			if /[01]/ =~ (digits[0]+digits[3])
+			if /[01]/ =~ (digits[0] + digits[3])
 				errors.add(:phone, "may not have 0 or 1 in the [0] or [3] digit position")
 			end
 		end

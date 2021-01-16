@@ -15,12 +15,17 @@ RSpec.describe Record, :type => :model do
     expect(subject).to be_valid
   end
 
-  it "must have row present" do
+  it "requires identifier" do
+    subject.identifier = nil
+    expect(subject).to_not be_valid
+  end
+  
+  it "requires integer row" do
     subject.row = nil
     expect(subject).to_not be_valid
   end
 
-  it "must have email present" do
+  it "requires email present" do
     subject.email = ""
     expect(subject).to_not be_valid
   end
@@ -30,7 +35,7 @@ RSpec.describe Record, :type => :model do
                first.last@foo.jp me+bobbymcgee@baz.cn]
     valid.each { |email|
       subject.email = email
-      expect(subject).to be_valid
+      expect(subject).to be_valid, "#{email} should be valid"
     }
   end
 
@@ -40,11 +45,11 @@ RSpec.describe Record, :type => :model do
                  foo@bar.b]
     invalid.each { |_email|
       subject.email = _email
-      expect(subject).to_not be_valid
+      expect(subject).to_not be_valid, "#{_email} should not be valid"
     }
   end
 
-  it "limits the size of email to 255" do
+  it "requires email.length <= 255" do
     suffix = "@me.com"
     subject.email = "a"*(255 - suffix.length) + suffix
     expect(subject).to be_valid
@@ -52,9 +57,15 @@ RSpec.describe Record, :type => :model do
     expect(subject).to_not be_valid
   end
 
-  it "must have phone present" do
+  it "requires phone" do
     subject.phone = ""
     expect(subject).to_not be_valid
+  end
+
+  def each_printable_char_except_in(except_str)
+    (32..126).map(&:chr).select { |ch|
+      !except_str.include?(ch)
+    }.each { |ch| yield ch }
   end
 
   it "only accepts phone with valid characters" do
@@ -62,11 +73,9 @@ RSpec.describe Record, :type => :model do
     subject.phone = valid
     expect(subject).to be_valid
 
-    (20..126).map(&:chr).each { |ch|
-      if !valid.include?(ch)
-        subject.phone = valid + ch
-        expect(subject).to_not be_valid, "#{ch} should not be a valid character"
-      end
+    each_printable_char_except_in(valid) { |ch|
+      subject.phone = valid + ch
+      expect(subject).to_not be_valid, "#{ch} should not be a valid character"
     }
   end
 
@@ -84,7 +93,6 @@ RSpec.describe Record, :type => :model do
     expect(subject).to be_valid
   end
 
-
   def name_length_boundary_check(field)
     subject[field] = "a"
     expect(subject).to_not be_valid
@@ -96,23 +104,35 @@ RSpec.describe Record, :type => :model do
     expect(subject).to_not be_valid
   end
 
-  it "only accepts first names between 2..255 in length" do
+  it "requires first.length in [2.255]" do
     name_length_boundary_check(:first)
   end
-  
-  it "only accepts last names between 2..255 in length" do
+
+  it "requires last.length in [2..255]" do
     name_length_boundary_check(:last)
   end
 
   def name_alpha_check(field)
-    fail
-  end
+    valid = (('a'..'z').to_a + ('A'..'Z').to_a).join
+    subject[field] = valid
+    expect(subject).to be_valid
   
-  it "only accepts first names with alpha characters" do
+    each_printable_char_except_in(valid) { |ch|
+      subject[field] = valid + ch
+      expect(subject).to_not be_valid, "#{ch} should not be a valid character"
+    }
+  end
+
+  it "requires first comprised of alpha characters" do
     name_alpha_check(:first)
   end
 
-  it "only accepts last names with alpha characters" do
+  it "requires last comprised of alpha characters" do
     name_alpha_check(:last)
+  end
+
+  it "only accepts last if first is specified" do
+    subject.first = ""
+    expect(subject).to_not be_valid
   end
 end
