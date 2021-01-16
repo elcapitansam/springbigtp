@@ -1,22 +1,29 @@
 
 class Record < ApplicationRecord
 	belongs_to :identifier
-	validates :row, presence: true
-	validates :phone,
-		presence: true,
-		format: { with: /\A[0-9\-\.()]+\z/,
-							message: "format error, only 0-9, -, ., (, ) permitted" }
-	validate :phone_digit_check
+
+	validates :row,
+		presence: true
+
 	validates :email,
 		presence: true,
 		length: { maximum: 255 },
 		format: { with: /\A[\w+\-.]+@([a-z\d\-]+\.)+[a-z]{2,3}\z/i }
-	validate :first_last_dependent_presence
+
+	validates :phone,
+		presence: true,
+		format: { with: /\A[0-9\-\.()]+\z/,
+							message: "format error, only 0-9, -, ., (, ) permitted" }
+
+	validate :phone_digit_check
+	
 	validates :first, :last,
 		allow_blank: true,
 		length: { minimum: 2, maximum: 255 },
 		format: { with: /\A[a-z]+\z/i,
 							message: "only alpha characters permitted" }
+
+	validate :first_last_dependent_presence
 
 	private
 
