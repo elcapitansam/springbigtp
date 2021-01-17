@@ -4,7 +4,11 @@ class Identifier < ApplicationRecord
 
   default_scope { order(processing: :desc, updated_at: :desc) }
 
-  validates :identifier, presence: true
+  validates :identifier,
+    presence: true,
+    length: { minimum: 2, maximum: 255 },
+    format: { with: /\A[0-9a-z]+\z/i, 
+              message: "must contain only alphanumeric characters" }
 
   def setup
     debugger

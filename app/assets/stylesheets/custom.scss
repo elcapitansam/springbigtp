@@ -125,3 +125,18 @@ input {
   font-size: 1.2em;
   font-style: italic;
 }
+
+#upload_form {
+  #filename_display {
+    border: 1px solid black;
+    height: 1em;
+    margin-bottom: 5px;
+  }
+  #csvfile {
+    display: none;
+  }
+  #browse_button {
+    margin-bottom: 20px;
+  }
+}
+

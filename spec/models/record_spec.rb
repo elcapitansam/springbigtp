@@ -1,4 +1,9 @@
 require 'rails_helper'
+require 'helpers'
+
+RSpec.configure do |c|
+  c.include Helpers
+end
 
 RSpec.describe Record, :type => :model do
   let(:identifier) {
@@ -62,12 +67,6 @@ RSpec.describe Record, :type => :model do
     expect(subject).to_not be_valid
   end
 
-  def each_printable_char_except_in(except_str)
-    (32..126).map(&:chr).select { |ch|
-      !except_str.include?(ch)
-    }.each { |ch| yield ch }
-  end
-
   it "only accepts phone with valid characters" do
     valid = "9876543210-.()"
     subject.phone = valid
@@ -104,7 +103,7 @@ RSpec.describe Record, :type => :model do
     expect(subject).to_not be_valid
   end
 
-  it "requires first.length in [2.255]" do
+  it "requires first.length in [2..255]" do
     name_length_boundary_check(:first)
   end
 

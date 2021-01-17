@@ -11,9 +11,10 @@ class BatchuploadsController < ApplicationController
 
   def upload
     params.require([:identifier, :csvfile])
-    process_csvfile_async(params['identifier'], params['csvfile'].tempfile)
-    flash[:info] = "csvfile uploaded for processing; refresh to monitor status"
-    redirect_to output_url
+    if process_csvfile_async(params['identifier'], params['csvfile'].tempfile)
+      flash[:info] = "csvfile uploaded for processing; refresh to monitor status"
+      redirect_to output_url
+    end
   end
 
   private
@@ -22,6 +23,11 @@ class BatchuploadsController < ApplicationController
       # get a handle on the tempfile before the call returns
       csv = CSV.open(csv_tempfile, headers: true)
       identifier = Identifier.find_or_initialize_by(identifier: identifier_name)
+      if !identifier.valid?
+        flash[:danger] = identifier.errors.objects.first.full_message
+        redirect_to input_url(identifier_name: identifier_name)
+        return false
+      end
       identifier.update_attribute(:processing, true)
       Thread.new {
         identifier.transaction do
@@ -44,6 +50,6 @@ class BatchuploadsController < ApplicationController
         identifier.processing = false
         identifier.save
       }
-
+      return true
     end
 end

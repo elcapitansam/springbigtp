@@ -1,9 +1,12 @@
+<%= javascript_pack_tag 'input', 'data-turbolinks-track': 'reload' %>
 <h1>Batch user uploader</h1>
-<%= form_with url: upload_path do |f| %>
+<%= form_with url: upload_path, id: "upload_form" do |f| %>
     <%= f.label :identifier %>
     <%= f.text_field :identifier, class: 'form-control', required: true, value: (@identifier_name || "") %>
 
     <%= f.label :csvfile, "CSV File" %>
+    <%= f.text_field :filename_display, class: 'form-control', readonly: true %>
+    <input id="browse_button" type="button" class="btn btn-secondary" value="Browse">
     <%= f.file_field :csvfile, accept: "text/csv", class: 'form-control-file', required: true %>
     <%= f.submit "Submit", class: "btn btn-primary" %>
 <% end %>
