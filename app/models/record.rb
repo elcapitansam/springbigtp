@@ -2,6 +2,8 @@
 class Record < ApplicationRecord
 	belongs_to :identifier
 
+	default_scope { order(row: :asc) }
+
 	validates :row,
 		presence: true,
 		numericality: { only_integer: true }

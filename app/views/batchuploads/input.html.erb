@@ -1,9 +1,9 @@
 <h1>Batch user uploader</h1>
 <%= form_with url: upload_path do |f| %>
     <%= f.label :identifier %>
-    <%= f.text_field :identifier, class: 'form-control', required: true %>
+    <%= f.text_field :identifier, class: 'form-control', required: true, value: (@identifier_name || "") %>
 
-    <%= f.label :csvfile, "CSV File:" %>
+    <%= f.label :csvfile, "CSV File" %>
     <%= f.file_field :csvfile, accept: "text/csv", class: 'form-control-file', required: true %>
-    <%= f.submit "Upload", class: "btn btn-primary" %>
+    <%= f.submit "Submit", class: "btn btn-primary" %>
 <% end %>
