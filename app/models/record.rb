@@ -3,6 +3,7 @@ class Record < ApplicationRecord
 	belongs_to :identifier
 
 	default_scope { order(row: :asc) }
+	before_save :normalize_phone
 
 	validates :row,
 		presence: true,
@@ -43,7 +44,12 @@ class Record < ApplicationRecord
 
 		def first_last_dependent_presence
 			if first.blank? && !last.blank?
-				errors.add(:first, "must be specified if last name is specified")
+				errors.add(:first, "must be specified if last is specified")
 			end
+		end
+
+		def normalize_phone
+			digits = phone.gsub(/[^0-9]/, '')
+			self.phone = "(#{digits[0..2]}) #{digits[3..5]}-#{digits[6..-1]}"
 		end
 end

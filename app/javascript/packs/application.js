@@ -8,10 +8,14 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
-//= require jquery
-//= require bootstrap
-//= require bootstrap-sprockets
-
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+require('./bootstrap')
+document.addEventListener("turbolinks:load", function() {
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+})
+
