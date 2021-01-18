@@ -2,12 +2,13 @@
   <h3>No batch uploads present</h3>
 <% else %>
   <% @identifiers.each do |id| %>
+    <section class="identifier-section">
     <h3><%= id.identifier %></h3>
-    <small>Updated <%= time_ago_in_words(id.updated_at) %> ago</small>
-    | <%= link_to 'input again', input_path(identifier_name: id.identifier) %>
+    <small>Updated <%= time_ago_in_words(id.updated_at) %> ago</small> | 
     <% if id.processing %>
-      <blockquote>Processing, <%= link_to "Refresh", "" %> to check status.</blockquote>
+      Processing, <%= link_to "Refresh", "" %> to check status.
     <% else %>
+      <%= link_to 'input again', input_path(identifier_name: id.identifier) %>
       <div class="table-div-400">
         <table class="table table-sm table-striped">
         <thead>
@@ -18,7 +19,7 @@
           </tr>
         </thead>
         <tbody>
-        <% id.records.each do |rec| %>
+        <% id.records.sort_by(&:row).each do |rec| %>
           <tr>
           <% [rec.row, rec.phone, rec.email, rec.first, rec.last].each do |data| %>
             <td><%= data %></td>
@@ -29,7 +30,8 @@
         </table>
       </div>
       <% if id.record_errors.length != 0 %>
-        <p class="error-label"><%= id.record_errors.length %> Errors</p>
+        <section class="error-section">
+        <p class="error-label"><%= pluralize(id.record_errors.length, "Error") %></p>
         <div class="table-div-200">
           <table class="table table-sm table-dark table-striped">
           <thead>
@@ -40,7 +42,7 @@
             </tr>
           </thead>
           <tbody>
-          <% id.record_errors.each do |err| %>
+          <% id.record_errors.sort_by(&:row).each do |err| %>
             <tr>
               <% [err.row, err.text].each do |data| %>
                 <td><%= data %></td>
@@ -50,8 +52,10 @@
           </tbody>
           </table>
         </div>
+        </section>
       <% end %>
       <hr>
     <% end %>
+    </section>
   <% end %>
 <% end %>

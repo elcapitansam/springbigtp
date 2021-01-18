@@ -17,6 +17,7 @@ h1 {
 @mixin table-div($height) {
   max-height: $height;
   width: 80%;
+  margin-top: 20px;
   margin-left: 30px;
   overflow: auto;
 }
@@ -30,9 +31,17 @@ h1 {
 }
 
 .error-label {
-  font-weight: bold;
+  margin-left: 30px;
   font-size: 1.2em;
   font-style: italic;
+}
+
+.error-section {
+  margin-top: 10px;
+}
+
+section.identifier-section:nth-child(n+2) {
+  margin-top: 50px;
 }
 
 /* input */

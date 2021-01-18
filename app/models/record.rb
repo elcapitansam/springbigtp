@@ -2,7 +2,6 @@
 class Record < ApplicationRecord
 	belongs_to :identifier
 
-	default_scope { order(row: :asc) }
 	before_save :normalize_phone
 
 	validates :row,
