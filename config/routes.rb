@@ -4,5 +4,5 @@ Rails.application.routes.draw do
   get '/output', to: 'application#output'
   post '/upload', to: 'application#upload'
 
-  root 'batchuploads#input'
+  root 'application#input'
 end
