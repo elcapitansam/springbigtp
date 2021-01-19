@@ -5,11 +5,7 @@
 @import 'bootstrap';
 
 body {
-  padding-top: 60px;
-}
-
-h1 {
-  text-align: center;
+  padding-top: 100px;
 }
 
 /* output */
@@ -49,7 +45,6 @@ section.identifier-section:nth-child(n+2) {
 #upload_form {
   width: 50%;
   margin-left: 25%;
-  margin-top: 20px;
 
   #filename_display {
     margin: 5px;

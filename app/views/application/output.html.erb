@@ -1,0 +1,7 @@
+<% if @identifiers.empty? %>
+  <h3>No identifiers to display.  <%= link_to "Input Some!", input_path %></h3>
+<% else %>
+  <% @identifiers.each do |id| %>
+    <%= render 'shared/identifier', id: id %>
+  <% end %>
+<% end %>

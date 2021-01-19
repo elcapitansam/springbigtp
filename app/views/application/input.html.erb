@@ -1,0 +1,19 @@
+<%= javascript_pack_tag 'input', 'data-turbolinks-track': 'reload' %>
+<div class="container">
+  <%= form_with url: upload_path, id: "upload_form" do |f| %>
+    <div class="form-group">
+      <%= f.label :identifier %>
+      <%= f.text_field :identifier,
+          class: 'form-control',
+          value: (@identifier_name || "") %>
+    </div>
+    <div class="form-group">
+      <label for="csvfile">CSV File<small id="filename_display" class="form-text text-muted"></small></label>
+      <%= f.button "Browse",
+          id: "browse_button",
+          class: "form-control btn btn-secondary" %>
+      <%= f.file_field :csvfile, accept: "text/csv" %>
+    </div>
+    <%= f.submit "Submit", class: "form-control btn btn-primary", id: "submit_button" %>
+  <% end %>
+</div>

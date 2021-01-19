@@ -1,2 +1,0 @@
-class IndentifiersController < ApplicationController
-end

@@ -22,17 +22,17 @@ $(() => {
         var validity = ''
 
         if (!identifier) {
-            validity = 'Please enter an identifier.';
+            validity = 'Please enter an identifier';
         } else if (identifier.length == 1) {
             validity = 'identifier length must be > 1';
         } else if (!identifier.match(valid_regex)) {
-            validity = 'Only alphanumeric characters are permitted.';
+            validity = 'Only alphanumeric characters are permitted';
         }
         return setAndReportValidity($identifier_input[0], validity);
     }
 
     function validate_csvfile() {
-        var validity = !csvfile() ? 'Please select a file for upload.' : '';
+        var validity = !csvfile() ? 'Please select a file for upload' : '';
 
         return setAndReportValidity($browse_btn[0], validity);
     }
