@@ -29,6 +29,7 @@ class ApplicationController < ActionController::Base
         return false
       end
       identifier.update_attribute(:processing, true)
+      # in the real world, we'd throttle this
       Thread.new {
         identifier.transaction do
           identifier.processing = true

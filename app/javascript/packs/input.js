@@ -21,10 +21,13 @@ $(() => {
         var valid_regex = /^[0-9a-z]+$/i;
         var validity = ''
 
+        if (document.skip_identifier_validate) {
+            return true;
+        }
         if (!identifier) {
             validity = 'Please enter an identifier';
         } else if (identifier.length == 1) {
-            validity = 'identifier length must be > 1';
+            validity = 'Identifier length must be > 1';
         } else if (!identifier.match(valid_regex)) {
             validity = 'Only alphanumeric characters are permitted';
         }
