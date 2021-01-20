@@ -1,0 +1,20 @@
+<div class="table-div-400">
+  <table class="table table-sm table-striped">
+    <thead>
+      <tr>
+        <% ["Row", "Phone", "Email", "First", "Last"].each do |hdr| %>
+          <th><%= hdr %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% records.sort_by(&:row).each do |rec| %>
+        <tr>
+          <% [rec.row, rec.phone, rec.email, rec.first, rec.last].each do |data| %>
+            <td><%= data %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

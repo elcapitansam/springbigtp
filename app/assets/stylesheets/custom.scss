@@ -10,20 +10,27 @@ body {
 
 /* output */
 
-@mixin table-div($height) {
-  max-height: $height;
-  width: 80%;
+@mixin identifier-inset {
   margin-top: 20px;
   margin-left: 30px;
+}
+.id-inset {
+  @include identifier-inset;
+}
+
+@mixin identifier-table-div($height) {
+  @include identifier-inset;
+  max-height: $height;
+  width: 80%;
   overflow: auto;
 }
 
 .table-div-400 {
-  @include table-div(400px);
+  @include identifier-table-div(400px);
 }
 
 .table-div-200 {
-  @include table-div(200px);
+  @include identifier-table-div(200px);
 }
 
 .error-label {

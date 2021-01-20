@@ -1,0 +1,23 @@
+<section class="error-section">
+  <p class="error-label"><%= pluralize(record_errors.length, "Error") %></p>
+  <div class="table-div-200">
+    <table class="table table-sm table-dark table-striped">
+      <thead>
+        <tr>
+          <% ["Row", "Error"].each do |hdr| %>
+            <th><%= hdr %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% record_errors.sort_by(&:row).each do |err| %>
+          <tr>
+            <% [err.row, err.text].each do |data| %>
+              <td><%= data %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

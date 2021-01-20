@@ -1,55 +1,18 @@
 <section class="identifier-section">
-<h3><%= id.identifier %></h3>
-<small>Updated <%= time_ago_in_words(id.updated_at) %> ago</small> | 
-<% if id.processing %>
-  Processing, <%= link_to "Refresh", "" %> to check status.
-<% else %>
-  <%= link_to 'input again', input_path(identifier_name: id.identifier) %>
-  <div class="table-div-400">
-    <table class="table table-sm table-striped">
-    <thead>
-      <tr>
-      <% ["Row", "Phone", "Email", "First", "Last"].each do |hdr| %>
-        <th><%= hdr %></th>
-      <% end %>
-      </tr>
-    </thead>
-    <tbody>
-    <% id.records.sort_by(&:row).each do |rec| %>
-      <tr>
-      <% [rec.row, rec.phone, rec.email, rec.first, rec.last].each do |data| %>
-        <td><%= data %></td>
-      <% end %>
-      </tr>
+  <h3><%= id.identifier %></h3>
+  <small>Updated <%= time_ago_in_words(id.updated_at) %> ago</small> | 
+  <% if id.processing %>
+    Processing, <%= link_to "Refresh", "" %> to check status.
+  <% else %>
+    <%= link_to 'input again', input_path(identifier_name: id.identifier) %>
+    <% if id.records.blank? %>
+      <div class="id-inset">No valid records to display.</div>
+    <% else %>
+      <%= render 'shared/records_table', records: id.records %>
     <% end %>
-    </tbody>
-    </table>
-  </div>
-  <% if id.record_errors.length != 0 %>
-    <section class="error-section">
-    <p class="error-label"><%= pluralize(id.record_errors.length, "Error") %></p>
-    <div class="table-div-200">
-      <table class="table table-sm table-dark table-striped">
-      <thead>
-        <tr>
-        <% ["Row", "Error"].each do |hdr| %>
-          <th><%= hdr %></th>
-        <% end %>
-        </tr>
-      </thead>
-      <tbody>
-      <% id.record_errors.sort_by(&:row).each do |err| %>
-        <tr>
-          <% [err.row, err.text].each do |data| %>
-            <td><%= data %></td>
-          <% end %>
-        </tr>
-      <% end %>
-      </tbody>
-      </table>
-    </div>
-    </section>
+    <% if !id.record_errors.blank? %>
+      <%= render 'shared/record_errors_table', record_errors: id.record_errors %>
+    <% end %>
+    <hr>
   <% end %>
-  <hr>
-<% end %>
 </section>
